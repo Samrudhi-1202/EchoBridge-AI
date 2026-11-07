@@ -4,7 +4,7 @@ import GestureRecognition from "../components/GestureRecognition";
 import { classifyGesture } from "./gestureClassifier";
 
 const RECORDING_DURATION = 3000;
-const KANNADA_TTS_URL = "http://127.0.0.1:8001/speak";
+const KANNADA_TTS_URL = "http://127.0.0.1:8002/speak";
 
 const COMMUNICATION_MESSAGES = {
   WATER: {
