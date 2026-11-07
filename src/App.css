@@ -2148,3 +2148,139 @@ button {
     transition-duration: 0.01ms !important;
   }
 }
+
+/* ==========================================
+   ECHOBRIDGE - RECOGNITION SCREEN FIX
+========================================== */
+
+/* Better spacing below the navbar */
+.studio-page {
+  padding-top: 35px;
+  overflow: visible;
+}
+
+.studio-page-heading {
+  margin-top: 25px;
+  margin-bottom: 30px;
+}
+
+/* Recognition screen container */
+.communication-studio > div {
+  color: #f5f5ff !important;
+  background: transparent !important;
+}
+
+/* Headings and paragraphs */
+.communication-studio h2,
+.communication-studio h3,
+.communication-studio p,
+.communication-studio label {
+  color: #f5f5ff !important;
+  line-height: 1.6;
+}
+
+/* Recognition panels */
+.communication-studio section {
+  margin-top: 24px;
+  padding: 24px;
+  border: 1px solid rgba(167, 139, 250, 0.35) !important;
+  border-radius: 18px !important;
+  background: linear-gradient(
+    145deg,
+    rgba(30, 40, 75, 0.95),
+    rgba(15, 23, 48, 0.98)
+  ) !important;
+  color: #f5f5ff !important;
+  box-shadow: 0 12px 35px rgba(0, 0, 0, 0.2);
+}
+
+/* All buttons inside the recognition screen */
+.communication-studio button {
+  min-height: 44px;
+  padding: 11px 20px !important;
+  margin: 6px !important;
+  border: 1px solid rgba(167, 139, 250, 0.4) !important;
+  border-radius: 10px !important;
+  background: linear-gradient(135deg, #8052ee, #5145cd) !important;
+  color: white !important;
+  font-family: "DM Sans", sans-serif !important;
+  font-size: 13px !important;
+  font-weight: 600 !important;
+  cursor: pointer;
+  transition: 0.2s ease;
+}
+
+.communication-studio button:hover:not(:disabled) {
+  background: linear-gradient(135deg, #a078ff, #655cf0) !important;
+  transform: translateY(-2px);
+}
+
+.communication-studio button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Gesture recording panel */
+.communication-studio section h3 {
+  margin-top: 5px;
+  margin-bottom: 16px;
+  color: #c4b5fd !important;
+}
+
+/* Result card */
+.communication-studio section[style*="FFF4D6"] {
+  background: linear-gradient(
+    145deg,
+    #25204b,
+    #171e3c
+  ) !important;
+  border-color: rgba(167, 139, 250, 0.5) !important;
+  color: #ffffff !important;
+}
+
+/* Result message */
+.communication-studio section div[style*="FFF0CC"] {
+  background: rgba(139, 92, 246, 0.18) !important;
+  color: #ffffff !important;
+  border: 1px solid rgba(167, 139, 250, 0.3);
+  border-radius: 12px;
+}
+
+/* Language dropdown */
+.communication-studio select {
+  width: 100%;
+  padding: 12px;
+  margin-top: 10px;
+  border: 1px solid rgba(167, 139, 250, 0.4);
+  border-radius: 10px;
+  background: #171e3c;
+  color: white;
+  font-size: 14px;
+}
+
+.communication-studio select option {
+  background: #171e3c;
+  color: white;
+}
+
+/* Camera area */
+.communication-studio video,
+.communication-studio canvas {
+  max-width: 100%;
+  border-radius: 14px;
+}
+
+/* Mobile spacing */
+@media (max-width: 760px) {
+  .studio-page {
+    padding: 25px 5% 55px;
+  }
+
+  .communication-studio section {
+    padding: 17px;
+  }
+
+  .communication-studio button {
+    max-width: 100%;
+  }
+}

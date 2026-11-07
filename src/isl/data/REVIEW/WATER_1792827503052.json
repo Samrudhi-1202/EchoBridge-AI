@@ -1,0 +1,169 @@
+{
+  "label": "WATER",
+  "durationMs": 3000,
+  "sampleIntervalMs": 100,
+  "capturedAt": "2026-10-24T07:38:23.052Z",
+  "frames": [
+    {
+      "time": 2,
+      "hands": {
+        "Left": null,
+        "Right": null
+      }
+    },
+    {
+      "time": 143,
+      "hands": {
+        "Left": null,
+        "Right": null
+      }
+    },
+    {
+      "time": 280,
+      "hands": {
+        "Left": null,
+        "Right": null
+      }
+    },
+    {
+      "time": 418,
+      "hands": {
+        "Left": null,
+        "Right": null
+      }
+    },
+    {
+      "time": 556,
+      "hands": {
+        "Left": null,
+        "Right": null
+      }
+    },
+    {
+      "time": 696,
+      "hands": {
+        "Left": null,
+        "Right": null
+      }
+    },
+    {
+      "time": 840,
+      "hands": {
+        "Left": null,
+        "Right": null
+      }
+    },
+    {
+      "time": 987,
+      "hands": {
+        "Left": null,
+        "Right": null
+      }
+    },
+    {
+      "time": 1125,
+      "hands": {
+        "Left": null,
+        "Right": null
+      }
+    },
+    {
+      "time": 1264,
+      "hands": {
+        "Left": null,
+        "Right": null
+      }
+    },
+    {
+      "time": 1401,
+      "hands": {
+        "Left": null,
+        "Right": null
+      }
+    },
+    {
+      "time": 1581,
+      "hands": {
+        "Left": null,
+        "Right": null
+      }
+    },
+    {
+      "time": 1750,
+      "hands": {
+        "Left": null,
+        "Right": null
+      }
+    },
+    {
+      "time": 1896,
+      "hands": {
+        "Left": null,
+        "Right": null
+      }
+    },
+    {
+      "time": 2018,
+      "hands": {
+        "Left": null,
+        "Right": null
+      }
+    },
+    {
+      "time": 2155,
+      "hands": {
+        "Left": null,
+        "Right": null
+      }
+    },
+    {
+      "time": 2276,
+      "hands": {
+        "Left": null,
+        "Right": null
+      }
+    },
+    {
+      "time": 2397,
+      "hands": {
+        "Left": null,
+        "Right": null
+      }
+    },
+    {
+      "time": 2514,
+      "hands": {
+        "Left": null,
+        "Right": null
+      }
+    },
+    {
+      "time": 2646,
+      "hands": {
+        "Left": null,
+        "Right": null
+      }
+    },
+    {
+      "time": 2746,
+      "hands": {
+        "Left": null,
+        "Right": null
+      }
+    },
+    {
+      "time": 2853,
+      "hands": {
+        "Left": null,
+        "Right": null
+      }
+    },
+    {
+      "time": 2968,
+      "hands": {
+        "Left": null,
+        "Right": null
+      }
+    }
+  ]
+}

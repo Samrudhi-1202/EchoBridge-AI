@@ -1,3 +1,6 @@
+﻿
+import TextToSpeech from "./components/TextToSpeech";
+import SpeechToText from "./components/SpeechToText";
 import { useEffect, useRef, useState } from "react";
 
 import {
@@ -20,6 +23,7 @@ import {
   X,
 } from "lucide-react";
 
+import LiveISLRecognition from "./isl/LiveISLRecognition";
 import "./App.css";
 
 /* ==========================================
@@ -410,8 +414,8 @@ export default function App() {
               </h1>
 
               <p>
-                Select a mode to begin. Live Communication keeps
-                speech recognition and the camera in the same session.
+                Select a mode to begin. Choose your preferred language
+                in Speech to Text or Text to Speech.
               </p>
             </div>
 
@@ -500,10 +504,6 @@ function CommunicationStudio({ activeMode }) {
     (mode) => mode.id === activeMode
   );
 
-  /* ------------------------------------------
-     ADD A MESSAGE TO THE SHARED TRANSCRIPT
-  ------------------------------------------ */
-
   const addMessage = (sender, text) => {
     const cleanedText = text.trim();
 
@@ -525,9 +525,7 @@ function CommunicationStudio({ activeMode }) {
     setNotice("");
   };
 
-  /* ------------------------------------------
-     CAMERA PREVIEW
-  ------------------------------------------ */
+  /* CAMERA PREVIEW */
 
   useEffect(() => {
     if (!sessionActive || !videoRef.current || !streamRef.current) {
@@ -535,13 +533,10 @@ function CommunicationStudio({ activeMode }) {
     }
 
     videoRef.current.srcObject = streamRef.current;
-
     videoRef.current.play().catch(() => {});
   }, [sessionActive]);
 
-  /* ------------------------------------------
-     START LIVE SESSION
-  ------------------------------------------ */
+  /* START LIVE SESSION */
 
   const startSession = async () => {
     setCameraError("");
@@ -550,13 +545,12 @@ function CommunicationStudio({ activeMode }) {
 
     if (!navigator.mediaDevices?.getUserMedia) {
       setCameraError(
-        "Camera access is unavailable. Open the site in a supported browser using localhost or HTTPS."
+        "Camera access is unavailable. Open the site using localhost or HTTPS."
       );
       return;
     }
 
     try {
-      // Request camera and microphone together.
       const stream = await navigator.mediaDevices.getUserMedia({
         video: true,
         audio: true,
@@ -564,7 +558,6 @@ function CommunicationStudio({ activeMode }) {
 
       streamRef.current = stream;
       sessionRef.current = true;
-
       setSessionActive(true);
 
       const SpeechRecognition =
@@ -573,7 +566,7 @@ function CommunicationStudio({ activeMode }) {
 
       if (!SpeechRecognition) {
         setMicError(
-          "This browser does not support live speech recognition. Try a supported version of Chrome."
+          "This browser does not support live speech recognition. Try Chrome."
         );
         return;
       }
@@ -616,9 +609,7 @@ function CommunicationStudio({ activeMode }) {
           event.error !== "no-speech" &&
           event.error !== "aborted"
         ) {
-          setMicError(
-            `Speech recognition issue: ${event.error}`
-          );
+          setMicError(`Speech recognition issue: ${event.error}`);
         }
       };
 
@@ -632,7 +623,7 @@ function CommunicationStudio({ activeMode }) {
             try {
               recognition.start();
             } catch {
-              // The browser may already be restarting recognition.
+              // Recognition may already be restarting.
             }
           }, 300);
         }
@@ -667,9 +658,7 @@ function CommunicationStudio({ activeMode }) {
     }
   };
 
-  /* ------------------------------------------
-     END LIVE SESSION
-  ------------------------------------------ */
+  /* END LIVE SESSION */
 
   const endSession = () => {
     sessionRef.current = false;
@@ -709,38 +698,7 @@ function CommunicationStudio({ activeMode }) {
     }
   };
 
-  /* ------------------------------------------
-     TEXT TO SPEECH
-  ------------------------------------------ */
-
-  const speakText = (text) => {
-    const cleanedText = text.trim();
-
-    if (!cleanedText) {
-      setNotice("Please enter some text first.");
-      return;
-    }
-
-    if (!("speechSynthesis" in window)) {
-      setNotice(
-        "Text-to-speech is not supported in this browser."
-      );
-      return;
-    }
-
-    window.speechSynthesis.cancel();
-
-    const utterance = new SpeechSynthesisUtterance(cleanedText);
-    utterance.lang = "en-IN";
-
-    window.speechSynthesis.speak(utterance);
-
-    addMessage("Text to Speech", cleanedText);
-  };
-
-  /* ------------------------------------------
-     SAMPLE SIGN PHRASE DEMONSTRATION
-  ------------------------------------------ */
+  /* SAMPLE SIGN PHRASE */
 
   const speakSignPhrase = (phrase) => {
     addMessage("Sign demonstration", phrase);
@@ -755,92 +713,7 @@ function CommunicationStudio({ activeMode }) {
     }
   };
 
-  /* ------------------------------------------
-     SPEECH TO TEXT ONLY MODE
-  ------------------------------------------ */
-
-  const startSpeechOnly = async () => {
-    setMicError("");
-    setNotice("");
-
-    const SpeechRecognition =
-      window.SpeechRecognition ||
-      window.webkitSpeechRecognition;
-
-    if (!SpeechRecognition) {
-      setMicError(
-        "Speech recognition is not supported in this browser. Try Chrome."
-      );
-      return;
-    }
-
-    const recognition = new SpeechRecognition();
-
-    recognition.lang = "en-IN";
-    recognition.continuous = true;
-    recognition.interimResults = true;
-
-    recognition.onstart = () => setListening(true);
-
-    recognition.onresult = (event) => {
-      let finalText = "";
-      let currentText = "";
-
-      for (let i = event.resultIndex; i < event.results.length; i++) {
-        if (event.results[i].isFinal) {
-          finalText += event.results[i][0].transcript;
-        } else {
-          currentText += event.results[i][0].transcript;
-        }
-      }
-
-      setInterimText(currentText);
-
-      if (finalText.trim()) {
-        addMessage("Speech", finalText);
-      }
-    };
-
-    recognition.onerror = (event) => {
-      if (event.error !== "no-speech" && event.error !== "aborted") {
-        setMicError(`Speech recognition issue: ${event.error}`);
-      }
-    };
-
-    recognition.onend = () => {
-      setListening(false);
-      recognitionRef.current = null;
-    };
-
-    recognitionRef.current = recognition;
-
-    try {
-      recognition.start();
-    } catch {
-      setMicError("Unable to start speech recognition.");
-    }
-  };
-
-  const stopSpeechOnly = () => {
-    if (recognitionRef.current) {
-      recognitionRef.current.onend = null;
-
-      try {
-        recognitionRef.current.stop();
-      } catch {
-        // Recognition may already have stopped.
-      }
-
-      recognitionRef.current = null;
-    }
-
-    setListening(false);
-    setInterimText("");
-  };
-
-  /* ------------------------------------------
-     COPY TRANSCRIPT
-  ------------------------------------------ */
+  /* COPY TRANSCRIPT */
 
   const copyTranscript = async () => {
     const content = transcript
@@ -860,9 +733,7 @@ function CommunicationStudio({ activeMode }) {
     }
   };
 
-  /* ------------------------------------------
-     CLEAN UP WHEN COMPONENT CLOSES
-  ------------------------------------------ */
+  /* CLEANUP */
 
   useEffect(() => {
     return () => {
@@ -891,6 +762,22 @@ function CommunicationStudio({ activeMode }) {
       }
     };
   }, []);
+
+  /* ==========================================
+     SPEECH TO TEXT - THREE LANGUAGES
+  ========================================== */
+
+  if (activeMode === "speech") {
+    return <SpeechToText />;
+  }
+
+  /* ==========================================
+     TEXT TO SPEECH - THREE LANGUAGES
+  ========================================== */
+
+  if (activeMode === "text") {
+    return <TextToSpeech />;
+  }
 
   /* ==========================================
      LIVE COMMUNICATION MODE
@@ -924,8 +811,6 @@ function CommunicationStudio({ activeMode }) {
           </span>
         </div>
 
-        {/* CAMERA AND SPEECH PANELS */}
-
         <div className="live-communication-grid">
           {/* CAMERA PANEL */}
 
@@ -951,7 +836,6 @@ function CommunicationStudio({ activeMode }) {
               ) : (
                 <div className="camera-placeholder">
                   <VideoOff size={38} />
-
                   <p>Camera preview appears here</p>
                 </div>
               )}
@@ -1023,6 +907,13 @@ function CommunicationStudio({ activeMode }) {
             {micError && (
               <p className="live-error">{micError}</p>
             )}
+            {sessionActive && streamRef.current && (
+  <LiveISLRecognition
+    compact
+    externalStream={streamRef.current}
+    onMessage={(message) => addMessage("Sign", message)}
+  />
+)}
           </div>
         </div>
 
@@ -1053,9 +944,7 @@ function CommunicationStudio({ activeMode }) {
             {transcript.length === 0 ? (
               <div className="transcript-empty">
                 <MessageCircle size={30} />
-
                 <p>Your conversation will appear here.</p>
-
                 <span>
                   Speak or try one of the sample sign phrases.
                 </span>
@@ -1072,7 +961,6 @@ function CommunicationStudio({ activeMode }) {
                 >
                   <div className="transcript-message-top">
                     <strong>{message.sender}</strong>
-
                     <time>{message.time}</time>
                   </div>
 
@@ -1121,9 +1009,9 @@ function CommunicationStudio({ activeMode }) {
 
           <p>
             <strong>Prototype note:</strong> Automatic sign language
-            recognition has not been connected yet. Sample phrases
-            demonstrate text-to-speech; they do not detect actual signs
-            through the camera.
+            recognition has not been connected to this camera view.
+            Sample phrases demonstrate text-to-speech; they do not
+            detect actual signs through the camera.
           </p>
         </div>
 
@@ -1146,283 +1034,19 @@ function CommunicationStudio({ activeMode }) {
         <div className="studio-heading">
           <div>
             <span className="eyebrow">MODE 01</span>
-
             <h2>Sign to Text</h2>
-
             <p>
-              Preview your camera and try sample phrases.
+              Show your hand gestures to translate them into text.
             </p>
           </div>
         </div>
 
-        <div className="single-mode-card">
-          <div className="live-camera">
-            {sessionActive ? (
-              <video
-                ref={videoRef}
-                autoPlay
-                muted
-                playsInline
-              />
-            ) : (
-              <div className="camera-placeholder">
-                <Camera size={38} />
-                <p>Camera is not active</p>
-              </div>
-            )}
-          </div>
-
-          <div className="single-mode-controls">
-            {!sessionActive ? (
-              <button
-                className="start-session-button"
-                onClick={startSession}
-              >
-                <Camera size={18} />
-                Start Camera
-              </button>
-            ) : (
-              <button
-                className="end-session-button"
-                onClick={endSession}
-              >
-                <VideoOff size={18} />
-                Stop Camera
-              </button>
-            )}
-          </div>
-
-          <h3>Sample phrases</h3>
-
-          <div className="sign-phrase-buttons">
-            {[
-              "Hello",
-              "Thank you",
-              "I need help",
-              "How are you?",
-            ].map((phrase) => (
-              <button
-                key={phrase}
-                className="sign-phrase-button"
-                onClick={() => addMessage("Sample phrase", phrase)}
-              >
-                {phrase}
-              </button>
-            ))}
-          </div>
-
-          <p className="prototype-note">
-            Automatic sign recognition is not yet connected.
-            These buttons are demonstration examples.
-          </p>
-
-          <Transcript
-            transcript={transcript}
-            copyTranscript={copyTranscript}
-          />
-        </div>
-
-        {cameraError && (
-          <p className="live-error">{cameraError}</p>
-        )}
-
-        {notice && (
-          <div className="studio-notice">{notice}</div>
-        )}
+        <LiveISLRecognition
+          onMessage={(message) => addMessage("Sign", message)}
+        />
       </div>
     );
   }
 
-  /* ==========================================
-     SPEECH TO TEXT MODE
-  ========================================== */
-
-  if (activeMode === "speech") {
-    return (
-      <div className="communication-studio">
-        <div className="studio-heading">
-          <div>
-            <span className="eyebrow">MODE 02</span>
-
-            <h2>Speech to Text</h2>
-
-            <p>
-              Speak and see your recognized words appear as text.
-            </p>
-          </div>
-        </div>
-
-        <div className="single-mode-card">
-          <div className="speech-live-box">
-            <AudioLines size={40} />
-
-            <p className="speech-live-label">
-              {listening
-                ? "Listening... Speak now."
-                : "Ready to listen"}
-            </p>
-
-            <p className="speech-live-text">
-              {interimText ||
-                "Your spoken words will appear here."}
-            </p>
-          </div>
-
-          <div className="single-mode-controls">
-            {!listening ? (
-              <button
-                className="start-session-button"
-                onClick={startSpeechOnly}
-              >
-                <Mic size={18} />
-                Start Listening
-              </button>
-            ) : (
-              <button
-                className="end-session-button"
-                onClick={stopSpeechOnly}
-              >
-                <MicOff size={18} />
-                Stop Listening
-              </button>
-            )}
-          </div>
-
-          {micError && (
-            <p className="live-error">{micError}</p>
-          )}
-
-          <Transcript
-            transcript={transcript}
-            copyTranscript={copyTranscript}
-          />
-        </div>
-
-        {notice && (
-          <div className="studio-notice">{notice}</div>
-        )}
-      </div>
-    );
-  }
-
-  /* ==========================================
-     TEXT TO SPEECH MODE
-  ========================================== */
-
-  return (
-    <div className="communication-studio">
-      <div className="studio-heading">
-        <div>
-          <span className="eyebrow">MODE 03</span>
-
-          <h2>{currentMode?.title || "Text to Speech"}</h2>
-
-          <p>
-            Type a message and let EchoBridge AI speak it aloud.
-          </p>
-        </div>
-      </div>
-
-      <div className="single-mode-card">
-        <label
-          className="text-input-label"
-          htmlFor="text-to-speech-input"
-        >
-          Enter your message
-        </label>
-
-        <textarea
-          id="text-to-speech-input"
-          className="text-to-speech-input"
-          placeholder="Type something you would like EchoBridge AI to say..."
-          value={inputText}
-          onChange={(event) => setInputText(event.target.value)}
-          rows={5}
-        />
-
-        <div className="single-mode-controls">
-          <button
-            className="start-session-button"
-            onClick={() => speakText(inputText)}
-          >
-            <Volume2 size={18} />
-            Speak Message
-          </button>
-
-          <button
-            className="secondary-button"
-            onClick={() => {
-              setInputText("");
-
-              if ("speechSynthesis" in window) {
-                window.speechSynthesis.cancel();
-              }
-            }}
-          >
-            <X size={17} />
-            Clear
-          </button>
-        </div>
-
-        {notice && (
-          <div className="studio-notice">{notice}</div>
-        )}
-
-        <Transcript
-          transcript={transcript}
-          copyTranscript={copyTranscript}
-        />
-      </div>
-    </div>
-  );
-}
-
-/* ==========================================
-   REUSABLE TRANSCRIPT
-========================================== */
-
-function Transcript({ transcript, copyTranscript }) {
-  return (
-    <div className="live-transcript-panel">
-      <div className="transcript-heading">
-        <div>
-          <MessageCircle size={20} />
-          <h3>Conversation History</h3>
-        </div>
-
-        <button
-          type="button"
-          className="copy-transcript-button"
-          onClick={copyTranscript}
-          disabled={transcript.length === 0}
-        >
-          <Copy size={15} />
-          Copy
-        </button>
-      </div>
-
-      <div className="transcript-messages">
-        {transcript.length === 0 ? (
-          <div className="transcript-empty">
-            <MessageCircle size={28} />
-            <p>Your messages will appear here.</p>
-          </div>
-        ) : (
-          transcript.map((message) => (
-            <div
-              key={message.id}
-              className="transcript-message"
-            >
-              <div className="transcript-message-top">
-                <strong>{message.sender}</strong>
-                <time>{message.time}</time>
-              </div>
-
-              <p>{message.text}</p>
-            </div>
-          ))
-        )}
-      </div>
-    </div>
-  );
+  return null;
 }

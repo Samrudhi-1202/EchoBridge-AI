@@ -1,0 +1,204 @@
+{
+  "label": "WATER",
+  "durationMs": 3000,
+  "sampleIntervalMs": 100,
+  "capturedAt": "2026-10-24T07:35:58.325Z",
+  "frames": [
+    {
+      "time": 1,
+      "hands": {
+        "Left": null,
+        "Right": null
+      }
+    },
+    {
+      "time": 116,
+      "hands": {
+        "Left": null,
+        "Right": null
+      }
+    },
+    {
+      "time": 223,
+      "hands": {
+        "Left": null,
+        "Right": null
+      }
+    },
+    {
+      "time": 333,
+      "hands": {
+        "Left": null,
+        "Right": null
+      }
+    },
+    {
+      "time": 439,
+      "hands": {
+        "Left": null,
+        "Right": null
+      }
+    },
+    {
+      "time": 545,
+      "hands": {
+        "Left": null,
+        "Right": null
+      }
+    },
+    {
+      "time": 653,
+      "hands": {
+        "Left": null,
+        "Right": null
+      }
+    },
+    {
+      "time": 761,
+      "hands": {
+        "Left": null,
+        "Right": null
+      }
+    },
+    {
+      "time": 869,
+      "hands": {
+        "Left": null,
+        "Right": null
+      }
+    },
+    {
+      "time": 978,
+      "hands": {
+        "Left": null,
+        "Right": null
+      }
+    },
+    {
+      "time": 1087,
+      "hands": {
+        "Left": null,
+        "Right": null
+      }
+    },
+    {
+      "time": 1200,
+      "hands": {
+        "Left": null,
+        "Right": null
+      }
+    },
+    {
+      "time": 1304,
+      "hands": {
+        "Left": null,
+        "Right": null
+      }
+    },
+    {
+      "time": 1415,
+      "hands": {
+        "Left": null,
+        "Right": null
+      }
+    },
+    {
+      "time": 1523,
+      "hands": {
+        "Left": null,
+        "Right": null
+      }
+    },
+    {
+      "time": 1631,
+      "hands": {
+        "Left": null,
+        "Right": null
+      }
+    },
+    {
+      "time": 1742,
+      "hands": {
+        "Left": null,
+        "Right": null
+      }
+    },
+    {
+      "time": 1853,
+      "hands": {
+        "Left": null,
+        "Right": null
+      }
+    },
+    {
+      "time": 1964,
+      "hands": {
+        "Left": null,
+        "Right": null
+      }
+    },
+    {
+      "time": 2080,
+      "hands": {
+        "Left": null,
+        "Right": null
+      }
+    },
+    {
+      "time": 2186,
+      "hands": {
+        "Left": null,
+        "Right": null
+      }
+    },
+    {
+      "time": 2296,
+      "hands": {
+        "Left": null,
+        "Right": null
+      }
+    },
+    {
+      "time": 2408,
+      "hands": {
+        "Left": null,
+        "Right": null
+      }
+    },
+    {
+      "time": 2519,
+      "hands": {
+        "Left": null,
+        "Right": null
+      }
+    },
+    {
+      "time": 2630,
+      "hands": {
+        "Left": null,
+        "Right": null
+      }
+    },
+    {
+      "time": 2740,
+      "hands": {
+        "Left": null,
+        "Right": null
+      }
+    },
+    {
+      "time": 2852,
+      "hands": {
+        "Left": null,
+        "Right": null
+      }
+    },
+    {
+      "time": 2958,
+      "hands": {
+        "Left": null,
+        "Right": null
+      }
+    }
+  ]
+}
