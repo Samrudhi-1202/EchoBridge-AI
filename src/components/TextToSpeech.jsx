@@ -24,7 +24,7 @@ function TextToSpeech() {
 
     if (language === "kn-IN") {
       try {
-        const response = await fetch("http://127.0.0.1:8002/speak", {
+        const response = await fetch("https://echobridge-ai.onrender.com/speak", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",

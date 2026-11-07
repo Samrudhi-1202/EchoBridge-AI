@@ -4,8 +4,7 @@ import GestureRecognition from "../components/GestureRecognition";
 import { classifyGesture } from "./gestureClassifier";
 
 const RECORDING_DURATION = 3000;
-const KANNADA_TTS_URL = "http://127.0.0.1:8002/speak";
-
+const KANNADA_TTS_URL = "https://echobridge-ai.onrender.com/speak";
 const COMMUNICATION_MESSAGES = {
   WATER: {
     "en-IN": "I need water.",
@@ -147,8 +146,8 @@ function LiveISLRecognition({
     if (capturedFrames.length < 5) {
       setResult(null);
       setSpeechError(
-        "Not enough hand movement was recorded. Keep both hands visible and try again."
-      );
+  `Kannada speech failed: ${error.message}. Please check the online speech server connection.`
+);
       return;
     }
 
